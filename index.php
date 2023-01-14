@@ -8,6 +8,8 @@ date_default_timezone_set("Asia/Tokyo");
 
 // $comment_array array()配列で用意する
 $comment_array = array();
+// $error_messages エラーメッセージを配列で用意する
+$error_messages = array();
 
 // $pdo DB接続
 // PDO PHPDatabaseObjectの略 PDO基底クラスのインスタンスを作成することで接続が確立できる
@@ -26,21 +28,34 @@ try {
 // input属性のnameから取得したデータ 連想配列なので[]を使用する
 // !emptyで空でないときtrueになる
 if (!empty($_POST["submitButton"]) && $_POST["submitButton"] === "書き込む") {
-  $postDate = date("Y-m-d H;i:s");
 
-  try {
-    // DB登録 ストアドプロシージャ
-    $stmt = $pdo->prepare("INSERT INTO `PHP_1st_table` (`username`, `comment`, `postDate`) VALUES (:username, :comment, :postDate);");
-    $stmt->bindParam(':username', $_POST['username']);
-    $stmt->bindParam(':comment', $_POST['comment']);
-    $stmt->bindParam(':postDate', $postDate);
+  // バリデーションチェック
+  if(empty($_POST["username"])) {
+    echo "名前を入力してください";
+    $error_messages["username"] = "名前を入力してください";
+  }
+  if(empty($_POST["comment"])) {
+    echo "コメントを入力してください";
+    $error_messages["comment"] = "コメントを入力してください";
+  }
 
-    // 実行
-    $stmt->execute();
+  // $error_messagesが空の時DB登録を行う
+  if(empty($error_messages)) {
+    $postDate = date("Y-m-d H;i:s");
+    try {
+      // DB登録 ストアドプロシージャ
+      $stmt = $pdo->prepare("INSERT INTO `PHP_1st_table` (`username`, `comment`, `postDate`) VALUES (:username, :comment, :postDate);");
+      $stmt->bindParam(':username', $_POST['username']);
+      $stmt->bindParam(':comment', $_POST['comment']);
+      $stmt->bindParam(':postDate', $postDate);
 
-  } catch (PDOException $e) {
-    echo $e->getMessage();
-}
+      // 実行
+      $stmt->execute();
+
+    } catch (PDOException $e) {
+      echo $e->getMessage();
+    }
+  }
 }
 
 // $sql SQL文を代入する
