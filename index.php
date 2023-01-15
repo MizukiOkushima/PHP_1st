@@ -30,17 +30,17 @@ try {
 if (!empty($_POST["submitButton"]) && $_POST["submitButton"] === "書き込む") {
 
   // バリデーションチェック
-  if(empty($_POST["username"])) {
+  if (empty($_POST["username"])) {
     echo "名前を入力してください";
     $error_messages["username"] = "名前を入力してください";
   }
-  if(empty($_POST["comment"])) {
+  if (empty($_POST["comment"])) {
     echo "コメントを入力してください";
     $error_messages["comment"] = "コメントを入力してください";
   }
 
   // $error_messagesが空の時DB登録を行う
-  if(empty($error_messages)) {
+  if (empty($error_messages)) {
     $postDate = date("Y-m-d H;i:s");
     try {
       // DB登録 ストアドプロシージャ
@@ -51,7 +51,6 @@ if (!empty($_POST["submitButton"]) && $_POST["submitButton"] === "書き込む")
 
       // 実行
       $stmt->execute();
-
     } catch (PDOException $e) {
       echo $e->getMessage();
     }
@@ -88,6 +87,7 @@ $pdo = null;
         <article>
           <div class="wrapper">
             <div class="nameArea">
+              <p class="id"><?php echo $comment["id"]; ?></p>
               <span>名前：</span>
               <!-- 一つずつ取り出した$commentの中からusernameを取得する -->
               <p class="username"><?php echo $comment["username"]; ?></p>

@@ -21,6 +21,14 @@ section {
   padding: 0px 10px;
 }
 
+section {
+  margin-left: 20px;
+}
+
+section .id {
+  padding-right: 8px;
+}
+
 section .username {
   color: green !important;
   font-weight: 700;
