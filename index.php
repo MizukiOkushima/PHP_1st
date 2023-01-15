@@ -79,7 +79,7 @@ $pdo = null;
 </head>
 
 <body>
-  <h1 class="title">PHP ニュー速VIP</h1>
+  <h1 class="title">なんでも実況PHP</h1>
   <hr>
   <div class="boardWrapper">
     <section>
