@@ -10,4 +10,4 @@ phpmyadminにデータベース接続をし投稿を参照、登録を行う。<
 "root", "root"の箇所はデータベースへログインする際の"ユーザー名"と"パスワード"を指定する<br>
 
 ### ページスクリーンショット
-![bbs com_](https://user-images.githubusercontent.com/95268598/212542141-aacf1771-40c9-42a1-a1f5-169457123c50.png)
+![bbs com_](https://user-images.githubusercontent.com/95268598/212582844-f0674ec5-4d9b-40d1-a488-62a2cbd67434.png)
