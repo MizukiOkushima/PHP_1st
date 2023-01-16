@@ -30,7 +30,7 @@ section .id {
 }
 
 section .username {
-  color: green !important;
+  color: green;
   font-weight: 700;
 }
 
@@ -38,6 +38,10 @@ section .nameArea {
   display: flex;
   align-items: center;
   margin-bottom: -14px;
+}
+
+section .nameArea a {
+  font-weight: 700;
 }
 
 section .comment {
@@ -60,8 +64,17 @@ section .comment {
   margin-left: 20px;
 }
 
+.formWrapper #username,
+.formWrapper #email {
+  height: 20px;
+}
+
+.formWrapper #email {
+  width: 200px;
+}
+
 .commentTextArea {
   margin-top: 10px;
-  width: 500px;
+  width: 560px;
   height: 90px;
 }

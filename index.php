@@ -31,8 +31,7 @@ if (!empty($_POST["submitButton"]) && $_POST["submitButton"] === "書き込む")
 
   // バリデーションチェック
   if (empty($_POST["username"])) {
-    echo "名前を入力してください";
-    $error_messages["username"] = "名前を入力してください";
+    $_POST["username"] = "風吹けば名無し";
   }
   if (empty($_POST["comment"])) {
     echo "コメントを入力してください";
@@ -44,8 +43,9 @@ if (!empty($_POST["submitButton"]) && $_POST["submitButton"] === "書き込む")
     $postDate = date("Y-m-d H;i:s");
     try {
       // DB登録 ストアドプロシージャ
-      $stmt = $pdo->prepare("INSERT INTO `PHP_1st_table` (`username`, `comment`, `postDate`) VALUES (:username, :comment, :postDate);");
+      $stmt = $pdo->prepare("INSERT INTO `PHP_1st_table` (`username`, `email`, `comment`, `postDate`) VALUES (:username, :email, :comment, :postDate);");
       $stmt->bindParam(':username', $_POST['username']);
+      $stmt->bindParam(':email', $_POST['email']);
       $stmt->bindParam(':comment', $_POST['comment']);
       $stmt->bindParam(':postDate', $postDate);
 
@@ -58,7 +58,7 @@ if (!empty($_POST["submitButton"]) && $_POST["submitButton"] === "書き込む")
 }
 
 // $sql SQL文を代入する
-$sql = "SELECT `id`, `username`, `comment`, `postDate` FROM `PHP_1st_table`;";
+$sql = "SELECT `id`, `email`, `username`, `comment`, `postDate` FROM `PHP_1st_table`;";
 // $pdo->query($sql) DBからコメントデータを取得する $comment_arrayの配列に代入
 $comment_array = $pdo->query($sql);
 // DBの接続解除
@@ -90,7 +90,20 @@ $pdo = null;
               <p class="id"><?php echo $comment["id"]; ?></p>
               <span>名前：</span>
               <!-- 一つずつ取り出した$commentの中からusernameを取得する -->
-              <p class="username"><?php echo $comment["username"]; ?></p>
+              <?php
+              if (!empty($comment["email"])) {
+                echo '<a href="mailto:' . $comment["email"] . '">' . "\n";
+                echo '<p>';
+              } else {
+                echo '<p class="username">';
+              }
+              ?>
+              <?php echo $comment["username"]; ?></p>
+              <?php
+              if (!empty($comment["email"])) {
+                echo '</a>' . "\n";
+              }
+              ?>
               <time>：<?php echo $comment["postDate"]; ?></time>
             </div>
             <p class="comment"><?php echo $comment["comment"]; ?></p>
@@ -102,8 +115,10 @@ $pdo = null;
     <form class="formWrapper" method="POST">
       <div>
         <input type="submit" value="書き込む" name="submitButton">
-        <label for="">名前：</label>
-        <input type="text" name="username">
+        <label for="username">名前：</label>
+        <input type="text" name="username" id="username">
+        <label for="email">E-mail：</label>
+        <input type="text" name="email" id="email" maxlength="50">
       </div>
       <div>
         <textarea class="commentTextArea" name="comment"></textarea>
